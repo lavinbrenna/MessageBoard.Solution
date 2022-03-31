@@ -34,7 +34,6 @@ namespace MessageBoard
 
             services.AddDbContext<MessageBoardContext>(opt =>
                 opt.UseMySql(Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(Configuration["ConnectionStrings:DefaultConnection"])));
-            services.AddControllers();
             services.AddHttpContextAccessor();
             services.AddSingleton<IUriService>(o =>
             {
@@ -44,6 +43,12 @@ namespace MessageBoard
                 return new UriService(uri);
             });
             services.AddControllers();
+            services.AddApiVersioning( o => {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1,0);
+            });
+            services.AddSwaggerDocument();
 
 
         }
@@ -59,6 +64,9 @@ namespace MessageBoard
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseAuthorization();
 

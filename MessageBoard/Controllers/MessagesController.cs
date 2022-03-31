@@ -13,7 +13,19 @@ using MessageBoard.Models;
 using MessageBoard.Services;
 using MessageBoard.Wrappers;
 namespace MessageBoardControllers
+
 {
+    [ApiVersion("1.0")]
+    [Route("api/{m:apiVersion}/messages")]
+    public class MessagesV1Controller : Controller
+    {
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] {"Value1 from Version 1", "value2 from Version 1"};
+        }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
